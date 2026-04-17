@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<head>
+    <title>Login</title>
+    <style>
+        body{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <form action="/user/login" method="post">
+        <pre>
+            <label>Email</label>
+            <input type="text" name="email" required>
+            <label>Password</label>
+            <input type="text" name="password" required>
+            <a href="forgetPassword">forget password</a> <a href="/user/signup">don't have an account?</a>
+                    
+                    <button type="submit">Login</button>
+        </pre>
+    </form>
+</body>

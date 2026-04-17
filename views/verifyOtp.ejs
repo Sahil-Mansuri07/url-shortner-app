@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<head>
+    <title>Login</title>
+    <style>
+        body{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <form action="/user/verify" method="post">
+        <pre>
+            <label>Email</label>
+            <input type="email" name="email" value="<%= email %>" readonly>
+            <label>OTP</label>
+            <input type="text" name="otp" required>
+            <button type="submit">Verify OTP</button>
+        </pre>
+    </form>
+</body>
