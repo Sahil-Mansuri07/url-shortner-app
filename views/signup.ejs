@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <head>
     <title>Sign Up</title>
     <style>
@@ -22,4 +22,118 @@
             <button type="submit">Signup</button>
         </pre>
     </form>
+</body> -->
+
+
+
+
+
+<!DOCTYPE html>
+<head>
+    <title>Sign Up</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+        body{
+            margin:0;
+            padding:0;
+            font-family:'Inter', sans-serif;
+            background:#f4f6f8;
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+
+        form{
+            background:#fff;
+            padding:25px;
+            border-radius:12px;
+            box-shadow:0 6px 18px rgba(0,0,0,0.08);
+            width:320px;
+        }
+
+        pre{
+            font-family:'Inter', sans-serif;
+            margin:0;
+            white-space:normal;
+        }
+
+        label{
+            display:block;
+            margin-top:10px;
+            font-size:14px;
+            font-weight:500;
+            color:#333;
+        }
+
+        input{
+            width:100%;
+            padding:10px;
+            margin-top:5px;
+            border:1px solid #ddd;
+            border-radius:8px;
+            outline:none;
+            font-size:14px;
+        }
+
+        input:focus{
+            border-color:#4f46e5;
+        }
+
+        button{
+            width:100%;
+            margin-top:15px;
+            padding:10px;
+            border:none;
+            border-radius:8px;
+            background:#4f46e5;
+            color:#fff;
+            font-weight:500;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:#4338ca;
+        }
+
+        a{
+            color:#4f46e5;
+            text-decoration:none;
+        }
+
+        a:hover{
+            text-decoration:underline;
+        }
+
+        p{
+            font-size:13px;
+            margin-top:10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form action="/user" method="post">
+        <pre>
+<label>Name</label>
+<input type="text" name="name" required>
+
+<label>Email</label>
+<input type="text" name="email" required>
+
+<label>Password</label>
+<input type="text" name="password" required>
+
+<label>Role</label>
+<input type="text" name="role" required>
+
+<p>Already have an account? <a href="/login">Login here</a></p>
+
+<button type="submit">Signup</button>
+        </pre>
+    </form>
+
 </body>

@@ -1,64 +1,194 @@
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>URL Shortner</title>
+
     <style>
-        body{
-            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            padding: 25px;
+            color: #111;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 26px;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        a {
+            text-decoration: none;
+            color: #4f46e5;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .card {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            margin-bottom: 15px;
+        }
+
+        form {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #4f46e5;
+        }
+
+        button {
+            padding: 10px 14px;
+            border: none;
+            border-radius: 8px;
+            background: #4f46e5;
+            color: #fff;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        button:hover {
+            background: #4338ca;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #f9fafb;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f3f4f6;
+        }
+
+        .msg {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #111;
+        }
+
+        .success {
+            color: green;
         }
     </style>
 </head>
+
 <body>
+
+<div class="container">
+
     <h1>URL Shortner</h1>
-    <% if(locals.id){
-        %>
-        <p> URL Generated : https://shortify-app-j756.onrender.com/url/<%= id%></p>
-        <div>
-            <div align="right">
-    <a href="/">Back</a>
-</div>
-         <%
-    } %>
-    <div>
+
+    <div class="top">
+        <a href="/user/logout">Logout</a>
+    </div>
+
+    <% if(locals.id){ %>
+        <div class="card msg success">
+            URL Generated : https://shortify-app-j756.onrender.com/url/<%= id %>
+            <div style="margin-top:8px;">
+                <a href="/">Back</a>
+            </div>
+        </div>
+    <% } %>
+
+    <div class="card">
         <form action="/url" method="post">
-            <div align="right">
-    <a href="/user/logout">logout</a>
-</div>
-            <label for="/url">Enter your Original URL</label>
+            <label>Enter URL</label>
             <input type="text" name="url" placeholder="https://example.com">
-            <button type="submit">Generate</button> 
+            <button type="submit">Generate</button>
         </form>
     </div>
 
-    <div>
-        <% if(locals.urls){ 
-            %>
-            <table>
-                <thead>
-                    <th>S. no</th>
-                    <th>ShortID</th>
+    <% if(locals.urls){ %>
+        <table>
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Short ID</th>
                     <th>Redirect</th>
                     <th>Clicks</th>
-                </thead>
-                <tbody>
-                    <% urls.forEach((url , index )=> {
-                        %>
-                        <tr>
-                        <td><%= index +1 %></td>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% urls.forEach((url, index) => { %>
+                    <tr>
+                        <td><%= index + 1 %></td>
                         <td><%= url.shortId %></td>
                         <td><%= url.redirectUrl %></td>
                         <td><%= url.visitHistory.length %></td>
-                        </tr>
-                        <%
-                    }); 
-                    %>
-                </tbody>
-            </table>
-            <%        
-        } %>
-    </div>
-    
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+
+</div>
+
 </body>
 </html>
