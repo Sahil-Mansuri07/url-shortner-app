@@ -80,7 +80,7 @@ catch(err){
     console.log(err);
     return res.status(500).render("home",{error:"Something went wrong"});
 }
-
+}
 
 async function getAnalytics(req, res){
 try{
@@ -97,6 +97,7 @@ catch(err){
     console.log(err);
     return res.status(500).render("home",{error:"Something went wrong"});
 
+}
 }
 
 module.exports={generateShortUrl,getAnalytics,redirectUrl};
