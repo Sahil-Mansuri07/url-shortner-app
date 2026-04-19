@@ -96,9 +96,9 @@
 <body>
     <form action="/user/login" method="post">
 
-        <% if (verified) { %>
-            <div class="success-msg">OTP Verified Successfully ✅</div>
-        <% } %>
+       <% if (typeof verified !== "undefined" && verified) { %>
+    <div class="success-msg">OTP Verified Successfully ✅</div>
+<% } %>
 
         <label>Email</label>
         <input type="text" name="email" required>
