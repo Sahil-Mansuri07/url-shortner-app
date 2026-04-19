@@ -37,10 +37,6 @@ app.use(session({
     saveUninitialized: true
 }));
 
-app.use((req, res) => {
-  res.status(404).render("404");
-});
-
 app.use("/url",urlRoute);
 app.use("/user",userRoute);
 app.use("/",staticRoute);
