@@ -12,6 +12,13 @@ async function generateShortUrl(req, res) {
     
     const { url } = req.body;
 
+
+    const existingUrl = await urlModel.findOne({ redirectUrl: url, createdBy: req.user._id });
+
+if (existingUrl) {
+  return res.render("home", { id: existingUrl.shortId, user: req.user });
+}
+
     
     if (!url) {
       return res.status(400).render("home", {
