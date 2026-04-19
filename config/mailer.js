@@ -16,8 +16,8 @@ const sendWelcomeMail = async (to, otp)=>{
         const mailOptions={
             from:process.env.EMAIL,
             to:to,
-            subject:"Welcome to Shortly",
-            text:"Hi there, welcome to Shortly!",
+            subject:"Welcome to Shortify",
+            text:"Hi there, welcome to Shortify!",
              html: `
              <h2>Congratulations 🎉</h2>
         <p>Your account has been created successfully.</p>
@@ -30,7 +30,7 @@ const sendWelcomeMail = async (to, otp)=>{
         };
          const info = await transporter.sendMail(mailOptions);
          
-         //console.log("Email sent successfully:", info);
+         
 
     } catch (error) {
        console.log("Error sending mail:", error);

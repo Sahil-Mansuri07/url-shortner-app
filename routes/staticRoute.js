@@ -12,14 +12,18 @@ router.get("/admin/urls",restrictTo(["ADMIN"]), async(req, res)=>{
 
     const allUrls=await urlModel.find({});
    
-    return res.render("home",{urls:allUrls});
+    return res.render("home",{urls:allUrls,
+    user:req.user,
+    });
 });
 
 router.get('/', restrictTo(["NORMAL","ADMIN"]), async(req, res)=>{
 
     const allUrls=await urlModel.find({createdBy:req.user._id});
    
-    return res.render("home",{urls:allUrls});
+    return res.render("home",{urls:allUrls,
+    user:req.user,
+    });
 });
 
 
@@ -31,8 +35,10 @@ router.get("/signup",async(req, res)=>{
 
 
 router.get("/login",async(req, res)=>{
-
-    return res.render("login");
+     const verified = req.session.verified;
+    req.session.verified = false; // ek baar hi dikhe
+     return res.render("login", { verified });
+    
 });
 
 router.get("/forgetPassword",async(req, res)=>{

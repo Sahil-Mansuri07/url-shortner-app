@@ -20,7 +20,7 @@ async function generateShortUrl(req, res){
     });
 
 
-    return res.render("home",{id:newShortId});
+    return res.render("home",{id:newShortId, user:req.user});
 
 }
 

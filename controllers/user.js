@@ -9,20 +9,36 @@ const {v4:uuidv4}=require("uuid");
 const crypto=require("crypto");
 
 const {setUser}=require("../service/auth");
-
 async function userSignup(req, res) {
+    try {
+        const {name,email,password,role} = req.body;
 
-    const {name,email,password,role}=req.body;
-    
-    const genrateOtp=generateOTP();
+        const existingUser = await userModel.findOne({email});
 
-    await sendWelcomeMail(email, genrateOtp.otp);
-    
-    await userModel.create({name,email,password,role,otp:genrateOtp.otp,otp_expiry:genrateOtp.expiry});
+        if (existingUser) {
+            return res.render("signup", { error: "Email already exists" });
+        }
 
-    return res.render("verifyOtp",{email:email});
+        const genrateOtp = generateOTP();
+
+        await userModel.create({
+            name,
+            email,
+            password,
+            role,
+            otp: genrateOtp.otp,
+            otp_expiry: genrateOtp.expiry
+        });
+
+        await sendWelcomeMail(email, genrateOtp.otp);
+
+        return res.render("verifyOtp",{email:email});
+
+    } catch (err) {
+        console.log("Signup Error:", err);
+        return res.render("signup", { error: "Something went wrong" });
+    }
 }
-
 async function verifyOtp(req, res) {
 
     const {email,otp}=req.body;
@@ -42,7 +58,8 @@ async function verifyOtp(req, res) {
     user.otpExpiry=undefined;
     await user.save();
 
-    return res.redirect("/login");
+   req.session.verified = true;
+res.redirect("/login");
 }
 
 async function forgetPassword(req, res) {
@@ -79,7 +96,7 @@ async function userLogin(req, res) {
         return res.cookie("cookieToken",token,{
   httpOnly: true,
   secure: true,
-  sameSite: "None"
+  sameSite: "None",
 }).redirect("/");
     } catch (error) {
         return res.render("login",{error:"Invalid Credentials"});

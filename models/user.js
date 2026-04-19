@@ -24,7 +24,6 @@ password:{
 },
     role:{
         type:String,
-        required:true,
         default:"NORMAL",
     },
     otp: {

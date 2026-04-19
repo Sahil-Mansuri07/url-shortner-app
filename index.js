@@ -1,5 +1,7 @@
 const express=require("express");
 
+const session = require("express-session");
+
 require("dotenv").config();
 
 const path=require("path");
@@ -29,6 +31,11 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
 app.use(checkForAuthentication);
+app.use(session({
+    secret: "Sahil@9131etc",
+    resave: false,
+    saveUninitialized: true
+}));
 
 app.use("/url",urlRoute);
 app.use("/user",userRoute);

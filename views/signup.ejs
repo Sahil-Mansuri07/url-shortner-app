@@ -1,32 +1,3 @@
-<!-- <!DOCTYPE html>
-<head>
-    <title>Sign Up</title>
-    <style>
-        body{
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-    </style>
-</head>
-<body>
-    <form action="/user" method="post">
-        <pre>
-            <label>Name</label>
-            <input type="text" name="name" required>
-            <label>Email</label>
-            <input type="text" name="email" required>
-            <label>Password</label>
-            <input type="text" name="password" required>
-            <label>Role</label>
-            <input type="text" name="role" required>
-            <p>Already have an account? <a href="/login">Login here</a></p>
-            <button type="submit">Signup</button>
-        </pre>
-    </form>
-</body> -->
-
-
-
-
 
 <!DOCTYPE html>
 <head>
@@ -54,12 +25,6 @@
             width:320px;
         }
 
-        pre{
-            font-family:'Inter', sans-serif;
-            margin:0;
-            white-space:normal;
-        }
-
         label{
             display:block;
             margin-top:10px;
@@ -68,7 +33,7 @@
             color:#333;
         }
 
-        input{
+        input, select{
             width:100%;
             padding:10px;
             margin-top:5px;
@@ -78,7 +43,7 @@
             font-size:14px;
         }
 
-        input:focus{
+        input:focus, select:focus{
             border-color:#4f46e5;
         }
 
@@ -111,29 +76,47 @@
             font-size:13px;
             margin-top:10px;
         }
+
+        /* 🔥 Error styling */
+        .error{
+            color:#b91c1c;
+            background:#fee2e2;
+            padding:8px;
+            border-radius:6px;
+            margin-bottom:10px;
+            font-size:13px;
+        }
     </style>
 </head>
 
 <body>
 
     <form action="/user" method="post">
-        <pre>
-<label>Name</label>
-<input type="text" name="name" required>
 
-<label>Email</label>
-<input type="text" name="email" required>
+        <% if (typeof error !== "undefined") { %>
+            <div class="error"><%= error %></div>
+        <% } %>
 
-<label>Password</label>
-<input type="text" name="password" required>
+        <label>Name</label>
+        <input type="text" name="name" required>
 
-<label>Role</label>
-<input type="text" name="role" required>
+        <label>Email</label>
+        <input type="text" name="email" required>
 
-<p>Already have an account? <a href="/login">Login here</a></p>
+        <label>Password</label>
+        <input type="password" name="password" required>
 
-<button type="submit">Signup</button>
-        </pre>
+        <label>Role</label>
+        <select name="role">
+            <option value="">Select Role</option>
+            <option value="USER">USER</option>
+            <option value="ADMIN">ADMIN</option>
+        </select>
+
+        <p>Already have an account? <a href="/login">Login here</a></p>
+
+        <button type="submit">Signup</button>
+
     </form>
 
 </body>
