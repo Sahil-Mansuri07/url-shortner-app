@@ -10,6 +10,10 @@ const router=express.Router();
 
 router.get("/admin/urls",restrictTo(["ADMIN"]), async(req, res)=>{
 
+    if (!req.user) {
+      return res.redirect("/login");
+    }
+
     const allUrls=await urlModel.find({});
    
     return res.render("home",{urls:allUrls,
@@ -18,6 +22,10 @@ router.get("/admin/urls",restrictTo(["ADMIN"]), async(req, res)=>{
 });
 
 router.get('/', restrictTo(["NORMAL","ADMIN"]), async(req, res)=>{
+
+    if (!req.user) {
+      return res.redirect("/login");
+    }
 
     const allUrls=await urlModel.find({createdBy:req.user._id});
    

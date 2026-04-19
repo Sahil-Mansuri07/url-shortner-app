@@ -9,14 +9,21 @@ const {v4:uuidv4}=require("uuid");
 const crypto=require("crypto");
 
 const {setUser}=require("../service/auth");
+
 async function userSignup(req, res) {
     try {
         const {name,email,password,role} = req.body;
 
+        if (!email.includes("@")) {
+  return res.status(400).render("signup", {
+    error: "Invalid email format"
+  });
+}
+
         const existingUser = await userModel.findOne({email});
 
         if (existingUser) {
-            return res.render("signup", { error: "Email already exists" });
+            return res.status(400).render("signup", { error: "Email already exists" });
         }
 
         const genrateOtp = generateOTP();
@@ -32,25 +39,26 @@ async function userSignup(req, res) {
 
         await sendWelcomeMail(email, genrateOtp.otp);
 
-        return res.render("verifyOtp",{email:email});
+        return res.status(200).render("verifyOtp",{email:email});
 
     } catch (err) {
         console.log("Signup Error:", err);
-        return res.render("signup", { error: "Something went wrong" });
+        return res.status(500).render("signup", { error: "Something went wrong" });
     }
 }
 async function verifyOtp(req, res) {
 
+    try {
     const {email,otp}=req.body;
 
     const user=await userModel.findOne({email,otp});
 
     if (!user) {
-        return res.render("verifyOtp", { error: "Invalid OTP" });
+        return res.status(400).render("verifyOtp", { error: "Invalid OTP" });
     }
 
     if (user.otpExpiry < Date.now()) {
-  return res.send("OTP Expired");
+  return res.status(400).send("OTP Expired");
 }
 
     user.isVerified=true;
@@ -61,14 +69,19 @@ async function verifyOtp(req, res) {
    req.session.verified = true;
 res.redirect("/login");
 }
-
+catch (err) {
+    console.log("OTP Verification Error:", err);
+    return res.status(500).render("verifyOtp", { error: "Something went wrong" });
+}
+}
 async function forgetPassword(req, res) {
 
+    try {
     const { email } = req.body;
 
    
     const user = await userModel.findOne({ email });
-    if (!user) return res.send("User not found");
+    if (!user) return res.status(404).render("forgetPassword", { error: "User not found" });
 
     
     const token = crypto.randomBytes(32).toString("hex");
@@ -84,7 +97,12 @@ async function forgetPassword(req, res) {
     
     await sendResetPassword(email, link);
 
-    return res.render("notify", { email });
+    return res.status(200).render("notify", { email });
+}
+catch (err) {
+    console.log("Forget Password Error:", err);
+    return res.status(500).render("forgetPassword", { error: "Something went wrong" });
+}
 }
 
 async function userLogin(req, res) {
@@ -93,13 +111,13 @@ async function userLogin(req, res) {
     
     try {
         const token= await userModel.matchPasswordAndGenerateToken(email,password);
-        return res.cookie("cookieToken",token,{
+        return res.status(200).cookie("cookieToken",token,{
   httpOnly: true,
   secure: true,
   sameSite: "None",
 }).redirect("/");
     } catch (error) {
-        return res.render("login",{error:"Invalid Credentials"});
+        return res.status(400).render("login",{error:"Invalid Credentials"});
     }
 
 }
