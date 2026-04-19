@@ -1,5 +1,7 @@
 const userModel=require("../models/user");
 
+const urlModel=require("../models/url");
+
 const {sendWelcomeMail, sendResetPassword }=require("../config/mailer");
 
 const generateOTP=require("../utils/generateOTP");
@@ -122,10 +124,39 @@ async function userLogin(req, res) {
 
 }
 
+async function deleteUser(req, res) {
+  try {
+    const userId = req.user._id;
+
+    
+    await urlModel.deleteMany({ createdBy: userId });
+
+   
+    await userModel.findByIdAndDelete(userId);
+    
+    res.clearCookie("cookieToken");
+
+    
+    return res.render("signup", {
+      success: "Account deleted successfully"
+    });
+
+  } catch (err) {
+    console.error("Error deleting user:", err);
+
+    return res.status(500).render("home", {
+      error: "Failed to delete account",
+      user: req.user
+    });
+  }
+}
+
+
 
 module.exports={
     userSignup,
     verifyOtp,
     userLogin,
     forgetPassword,
+    deleteUser,
 };

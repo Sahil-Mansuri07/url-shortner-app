@@ -107,4 +107,23 @@ catch(err){
 }
 }
 
-module.exports={generateShortUrl,getAnalytics,redirectUrl};
+async function deleteUrl(req, res) {
+  try {
+    const id = req.params.id;
+
+    await urlModel.findOneAndDelete({
+  _id: id,
+  createdBy: req.user._id
+});
+    return res.status(200).redirect("/");
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send("Error deleting URL");
+  }
+}
+
+module.exports={generateShortUrl,
+  getAnalytics,
+  redirectUrl,
+  deleteUrl,
+};

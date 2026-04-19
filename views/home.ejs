@@ -20,7 +20,6 @@
             color: #111;
         }
 
-        /* 🔥 NAVBAR */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -49,7 +48,6 @@
             text-decoration: none;
         }
 
-        /* 🔥 ADMIN BUTTON */
         .admin-btn {
             padding: 8px 12px;
             border-radius: 6px;
@@ -74,7 +72,6 @@
             background: #dc2626;
         }
 
-        /* MAIN */
         .container {
             max-width: 900px;
             margin: 25px auto;
@@ -123,7 +120,6 @@
             background: #4338ca;
         }
 
-        /* Back button style */
         .msg a {
             display: inline-block;
             padding: 10px 14px;
@@ -167,7 +163,6 @@
 
 <body>
 
-<!-- 🔥 NAVBAR -->
 <div class="navbar">
     <div class="logo"><a href="/">Shortify</a></div>
 
@@ -178,6 +173,11 @@
         <% } %>
 
         <a href="/user/logout" class="logout-btn">Logout</a>
+        <button 
+    onclick="confirmDeleteUser()" 
+    style="padding:8px 12px; border-radius:6px; background:#b91c1c; color:#fff; font-size:13px; border:none; cursor:pointer;">
+    Delete Account
+</button>
     </div>
 </div>
 
@@ -212,6 +212,7 @@
                     <th>Short ID</th>
                     <th>Redirect</th>
                     <th>Clicks</th>
+                    <th>Delete</th> <!-- ✅ added -->
                 </tr>
             </thead>
 
@@ -222,6 +223,19 @@
                         <td><%= url.shortId %></td>
                         <td><%= url.redirectUrl %></td>
                         <td><%= url.visitHistory.length %></td>
+
+                        <!-- ✅ DELETE BUTTON -->
+                        <td>
+                            <form action="/url/delete/<%= url._id %>" method="post" style="display:inline;">
+                                <button 
+                                    type="submit" 
+                                    style="background:#ef4444;"
+                                    onclick="return confirm('Delete this URL?')">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+
                     </tr>
                 <% }) %>
             </tbody>
@@ -237,6 +251,16 @@ function copyUrl() {
     alert("Copied!");
 }
 </script>
+<script>
+function confirmDeleteUser() {
+    if (confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+        document.getElementById("deleteUserForm").submit();
+    }
+}
+</script>
+<form id="deleteUserForm" action="/user/delete" method="post" style="display:none;">
+    <input type="hidden" name="confirm" value="yes">
+</form>
 
 </body>
 </html>
