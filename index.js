@@ -32,7 +32,7 @@ app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
 app.use(checkForAuthentication);
 app.use(session({
-    secret: "Sahil@9131etc",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true
 }));
