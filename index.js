@@ -24,7 +24,12 @@ const app=express();
 
 const PORT=process.env.PORT || 9000;
 
-dbConnect.connectToMongoDb(process.env.MONGO_URL);
+dbConnect.connectToMongoDb(process.env.MONGO_URL).then(()=>{
+    console.log("Connected to MongoDB");
+}).catch((err)=>{
+    console.error("Error connecting to MongoDB:", err);
+    process.exit(1);
+});
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -38,7 +43,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({
-        mongoUrl: process.env.MONGO_URL
+        mongoUrl:process.env.MONGO_URL,
     }),
      cookie: {
         maxAge: 1000 * 60 * 60 * 24 

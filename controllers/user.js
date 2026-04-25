@@ -41,11 +41,11 @@ async function userSignup(req, res) {
 
         await sendWelcomeMail(email, genrateOtp.otp);
 
-        return res.status(200).render("verifyOtp",{email:email});
+        return res.status(200).render("verifyOtp",{email:email, message:"We have sent an OTP to your email for verification."});
 
     } catch (err) {
         console.log("Signup Error:", err);
-        return res.status(500).render("signup", { error: "Something went wrong",message:"We have sent an OTP to your email for verification." });
+        return res.status(500).render("signup", { error: "Something went wrong" });
     }
 }
 async function verifyOtp(req, res) {
