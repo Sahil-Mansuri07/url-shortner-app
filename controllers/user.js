@@ -45,7 +45,7 @@ async function userSignup(req, res) {
 
     } catch (err) {
         console.log("Signup Error:", err);
-        return res.status(500).render("signup", { error: "Something went wrong" });
+        return res.status(500).render("signup", { error: "Something went wrong",message:"We have sent an OTP to your email for verification." });
     }
 }
 async function verifyOtp(req, res) {
