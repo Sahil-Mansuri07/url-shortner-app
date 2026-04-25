@@ -6,6 +6,8 @@ require("dotenv").config();
 
 const path=require("path");
 
+const MongoStore = require("connect-mongo").default;
+
 const cookieParser=require("cookie-parser");
 
 const {checkForAuthentication,restrictTo}=require("./middlewares/auth");
@@ -34,7 +36,13 @@ app.use(checkForAuthentication);
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGO_URL
+    }),
+     cookie: {
+        maxAge: 1000 * 60 * 60 * 24 
+    }
 }));
 
 app.use("/url",urlRoute);
