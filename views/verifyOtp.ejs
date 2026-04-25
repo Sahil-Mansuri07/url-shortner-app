@@ -75,9 +75,11 @@
 <body>
 
     <form action="/user/verify" method="post">
-        <% if (typeof error !== "undefined") { %>
+
+        <% if (typeof error !== 'undefined') { %>
             <div class="error"><%= error %></div>
         <% } %>
+
          <% if (typeof message !== 'undefined') { %>
             <div class="msg"><%= message %></div>
         <% } %>
