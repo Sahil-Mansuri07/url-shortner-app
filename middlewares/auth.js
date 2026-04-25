@@ -8,12 +8,17 @@ async function checkForAuthentication(req, res, next){
 
     if(!token) return next();
 
+    try{
     const user=await validateToken(token);
 
     req.user=user;
 
     return next();
-
+}
+catch(err){
+    console.log(err);
+    return next();
+}
 }
 
 function restrictTo(roles=[]){

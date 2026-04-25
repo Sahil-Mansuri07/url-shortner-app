@@ -22,10 +22,11 @@ password:{
     type:String,
     required:true,
 },
-    role:{
-        type:String,
-        default:"NORMAL",
-    },
+   role: {
+  type: String,
+  default: "NORMAL",
+  set: (v) => v === "" ? "NORMAL" : v
+},
     otp: {
         type: String,
     },

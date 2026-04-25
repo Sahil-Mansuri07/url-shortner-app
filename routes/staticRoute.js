@@ -28,7 +28,7 @@ router.get('/', restrictTo(["NORMAL","ADMIN"]), async(req, res)=>{
     }
 
     const allUrls=await urlModel.find({createdBy:req.user._id});
-   
+
     return res.render("home",{urls:allUrls,
     user:req.user,
     });

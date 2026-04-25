@@ -12,6 +12,7 @@ const transporter=nodemailer.createTransport({
 
 const sendWelcomeMail = async (to, otp)=>{
    
+
     try {
         const mailOptions={
             from:process.env.EMAIL,
